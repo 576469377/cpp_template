@@ -400,8 +400,8 @@ stk[++tt] = x; // 直到满足，入栈
 
 // 此处队列内存下标
 // 当前元素为a[i]
-while (hh <= tt && i - q[hh] >= k) ++hh;
-while (hh <= tt && a[q[tt]] <= a[i]) --tt;
+while (hh <= tt && i - q[hh] >= k) ++hh; // 超出窗口，一直出队
+while (hh <= tt && a[q[tt]] <= a[i]) --tt; // 不满足，一直出队
 q[++tt] = i;
 if (i + 1 >= k) // 获取滑动窗口最大值
 
@@ -665,11 +665,12 @@ for (int i = 1; i <= n; ++i) {
 /////////////////////////////////////////////////////////
 
 // bfs搜索方格图的最短路
+// 从 (0, 0) 走到 (n - 1, m - 1) 的最短路
 
 const int dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
 int n, m;
-int g[N][N], dis[N][N];
+int dis[N][N];
 
 int bfs() {
     queue<int> q;
@@ -681,7 +682,7 @@ int bfs() {
         int x = f / m, y = f % m;
         for (int i = 0; i < 4; ++i) {
             int xx = x + dirs[i][0], yy = y + dirs[i][1];
-            if (xx >= 0 && xx < n && yy >= 0 && yy < m && g[xx][yy] == 0 && dis[xx][yy] == -1) {
+            if (xx >= 0 && xx < n && yy >= 0 && yy < m && dis[xx][yy] == -1) {
                 dis[xx][yy] = dis[x][y] + 1;
                 q.push(xx * m + yy);
             }
